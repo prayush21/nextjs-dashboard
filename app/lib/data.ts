@@ -229,3 +229,15 @@ export async function getUser(email: string) {
     throw new Error('Failed to fetch user.');
   }
 }
+
+// export async function fetchCardData(){
+//   try{
+//     const invoiceCountPromise = await sql`SELECT COUNT(*) FROM invoices`;
+//     const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
+
+//     return {invoiceCountPromise, customerCountPromise};
+//   } catch(e){
+//     console.error('Failed to fetch user:', error);
+//     throw new Error('Failed to fetch user.');
+//   }
+// }
