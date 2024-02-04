@@ -31,3 +31,29 @@ export async function createInvoice(formData: FormData) {
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
 }
+
+const UpdateInvoice = FormSchema.omit({
+  id: true,
+  date: true,
+});
+
+export async function updateInvoice(id: string, formData: FormData) {
+  console.log('ee', formData);
+
+  const { customerId, status, amount } = UpdateInvoice.parse({
+    customerId: formData.get('customerId'),
+    status: formData.get('status'),
+    amount: formData.get('amount'),
+  });
+
+  const amountInCents = amount * 100;
+
+  await sql`
+  UPDATE invoices
+  SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+  WHERE id=${id}
+ `;
+
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
+}
