@@ -1,6 +1,8 @@
 import { fetchCustomers, fetchInvoiceById } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
 import EditInvoiceForm from "@/app/ui/invoices/edit-form";
+import { notFound } from "next/navigation";
+
 
 export default async function Page({params}: {
     params: {
@@ -8,11 +10,12 @@ export default async function Page({params}: {
     }
 }){
     const {id} = params;
+    const [invoiceDetails, customers] = await Promise.all([fetchInvoiceById(id), fetchCustomers()]);
 
-    const invoiceDetails = await fetchInvoiceById(id);
-    const customers = await fetchCustomers();
+    if(!invoiceDetails){
+        notFound()
+    }
 
-    console.log('inv', invoiceDetails);
     
     
     return <main>

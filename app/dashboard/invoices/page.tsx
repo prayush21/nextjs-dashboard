@@ -20,7 +20,7 @@ export default async function  Page({searchParams}: {
   console.log('hhh', query, currentPage);
   
   return (
-    <div className="w-full bg-fuchsia-50">
+    <div className="w-full">
       <div className="flex w-full items-center justify-between">
         <div className={`${lusitana.className} text-2xl`}>Invoices</div>
       </div>
