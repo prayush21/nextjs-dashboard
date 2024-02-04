@@ -1,14 +1,57 @@
 'use client';
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 
 export default function Search({ placeholder }: { placeholder: string }) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // function debounce(func, time = 1000){
+  //   let timerId = undefined;
+  // //  setTimeout(() => {
+  //     if(!timerId){
+  //       clearTimeout(timerId)
+  //       func();
+  //     }
+
+  //     timerId = setTime
+  //   // }, time)
+
+  //   if(!timerId){
+  //     timerId = setTimeout(() => {
+  //       func();
+  //       // clearTimeout(timerId)
+  //     }, time);
+  //   } else{
+  //     clearTimeout(timerId);
+
+  //   }
+  // }
+
+  const handleSearch = useDebouncedCallback((text: string) => {
+    console.log('searching', text);
+    
+    const params = new URLSearchParams(searchParams);
+    if (text) {
+      params.set('query', text);
+    } else {
+      params.delete('query');
+    }
+
+    router.replace(`${pathname}?${params.toString()}`);
+  }, 1000);
+
   return (
     <div className="relative flex flex-1 flex-shrink-0">
       <label htmlFor="search" className="sr-only">
         Search
       </label>
       <input
+        defaultValue={searchParams.get('query')?.toString()}
+        onChange={(e) => handleSearch(e.target.value)}
         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
         placeholder={placeholder}
       />
