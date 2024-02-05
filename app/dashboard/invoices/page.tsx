@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searcParams?: {
+  searchParams?: {
     query?: string;
     page?: string;
   };
